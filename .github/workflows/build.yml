@@ -1,0 +1,78 @@
+name: Build plug-ins
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            cmake_args: ""
+            pluginval_zip: pluginval_Windows.zip
+            pluginval_bin: ./pluginval.exe
+          - name: macOS
+            os: macos-14
+            cmake_args: '"-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64"'
+            pluginval_zip: pluginval_macOS.zip
+            pluginval_bin: ./pluginval.app/Contents/MacOS/pluginval
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            # static MSVC runtime: no VC++ Redistributable needed, and JUCE's juceaide helper runs on any runner
+            export CMAKE_TOOLCHAIN_FILE="$(pwd -W)/cmake/msvc-static-runtime.cmake"
+          fi
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake_args }}
+
+      - name: Build
+        shell: bash
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Collect plug-ins
+        shell: bash
+        run: |
+          mkdir -p dist/VST3
+          for p in Channel4K Bus4K Listen4K; do
+            cp -R build/${p}_artefacts/Release/VST3/*.vst3 dist/VST3/
+            if [ "$RUNNER_OS" = "macOS" ]; then
+              mkdir -p dist/AU dist/Standalone
+              cp -R build/${p}_artefacts/Release/AU/*.component dist/AU/
+              cp -R build/${p}_artefacts/Release/Standalone/*.app dist/Standalone/
+            else
+              mkdir -p dist/Standalone
+              cp build/${p}_artefacts/Release/Standalone/*.exe dist/Standalone/
+            fi
+          done
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            # ad-hoc signature so Apple Silicon will load the bundles
+            find dist -maxdepth 2 \( -name "*.vst3" -o -name "*.component" -o -name "*.app" \) -exec codesign --force --deep -s - {} \;
+          fi
+          ls -R dist | head -50
+
+      - name: Validate with pluginval
+        shell: bash
+        run: |
+          curl -sSL -o pv.zip https://github.com/Tracktion/pluginval/releases/latest/download/${{ matrix.pluginval_zip }}
+          unzip -q pv.zip
+          for f in dist/VST3/*.vst3; do
+            echo "::group::pluginval $f"
+            ${{ matrix.pluginval_bin }} --strictness-level 5 --validate-in-process --skip-gui-tests --timeout-ms 600000 "$f"
+            echo "::endgroup::"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 8cee-Console-4K-${{ matrix.name }}
+          path: dist
