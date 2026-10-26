@@ -1,6 +1,6 @@
 # 8cee Console 4K — Channel-4K · Bus-4K · Listen-4K
 
-A large-format-console style bundle by **8cee**, voiced for **90s NY boom bap, new jack swing, conscious hip hop and R&B**. Built with JUCE: VST3 on Windows and macOS, plus AU and standalone apps on macOS.
+A large-format-console style bundle by **8cee**, voiced for **90s NY boom bap, new jack swing, conscious hip hop and R&B**. Built with JUCE: Windows VST3 (plus a standalone app).
 
 Inspired by the classic 4000 E/G-series desks that most of those records went through. Not affiliated with or endorsed by Solid State Logic.
 
@@ -41,20 +41,17 @@ A typical chain: **Channel-4K** on each drum, sample and vocal track → **Liste
 
 ## Download a build
 
-Every push runs `.github/workflows/build.yml` on GitHub: Windows and macOS (Apple Silicon + Intel) builds, checked with **pluginval**. Get them under **Actions → latest run → Artifacts** (`8cee-Console-4K-Windows`, `8cee-Console-4K-macOS`).
+Every push runs `.github/workflows/build.yml` on GitHub: a Windows build, checked with **pluginval**. Get it under **Actions → latest run → Artifacts** (`8cee-Console-4K-Windows`).
 
 ## Install
 
-| | Windows | macOS |
-|---|---|---|
-| VST3 | `C:\Program Files\Common Files\VST3\` | `~/Library/Audio/Plug-Ins/VST3/` |
-| AU | — | `~/Library/Audio/Plug-Ins/Components/` |
+Copy the `.vst3` folders to `C:\Program Files\Common Files\VST3\`.
 
 Then rescan plug-ins in your DAW (in MPC: Preferences → Plugins → Rescan).
 
 ## Build it yourself
 
-CMake 3.22+ and a C++17 compiler (Visual Studio 2022 / Xcode). JUCE 8.0.4 is downloaded automatically.
+CMake 3.22+ and a C++17 compiler (Visual Studio 2022). JUCE 8.0.4 is downloaded automatically.
 
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
