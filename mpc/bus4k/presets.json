@@ -1,0 +1,200 @@
+{
+ "presets": [
+  {
+   "name": "Init",
+   "values": {
+    "threshold": -10.0,
+    "ratio": "4",
+    "attack": "30",
+    "release": "AUTO",
+    "makeup": 0.0,
+    "schpf": "OFF",
+    "mix": 100.0,
+    "drive": 20.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "90s NY Mix Bus",
+   "values": {
+    "threshold": -14.0,
+    "ratio": "4",
+    "attack": "30",
+    "release": "AUTO",
+    "makeup": 3.0,
+    "schpf": "60",
+    "mix": 100.0,
+    "drive": 35.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Boom Bap Drum Bus",
+   "values": {
+    "threshold": -20.0,
+    "ratio": "4",
+    "attack": "10",
+    "release": ".1",
+    "makeup": 5.0,
+    "schpf": "90",
+    "mix": 100.0,
+    "drive": 45.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Breakbeat Pump",
+   "values": {
+    "threshold": -24.0,
+    "ratio": "10",
+    "attack": "3",
+    "release": ".1",
+    "makeup": 8.0,
+    "schpf": "OFF",
+    "mix": 100.0,
+    "drive": 50.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "NY Parallel Crush",
+   "values": {
+    "threshold": -28.0,
+    "ratio": "10",
+    "attack": ".1",
+    "release": ".1",
+    "makeup": 13.0,
+    "schpf": "OFF",
+    "mix": 40.0,
+    "drive": 60.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "New Jack Drum Snap",
+   "values": {
+    "threshold": -18.0,
+    "ratio": "4",
+    "attack": "3",
+    "release": ".3",
+    "makeup": 4.0,
+    "schpf": "90",
+    "mix": 100.0,
+    "drive": 30.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "New Jack Mix Shine",
+   "values": {
+    "threshold": -12.0,
+    "ratio": "2",
+    "attack": "10",
+    "release": "AUTO",
+    "makeup": 2.0,
+    "schpf": "60",
+    "mix": 100.0,
+    "drive": 25.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Conscious Mix Glue",
+   "values": {
+    "threshold": -12.0,
+    "ratio": "2",
+    "attack": "30",
+    "release": "AUTO",
+    "makeup": 2.0,
+    "schpf": "60",
+    "mix": 100.0,
+    "drive": 20.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "R&B Vocal Bus",
+   "values": {
+    "threshold": -14.0,
+    "ratio": "2",
+    "attack": "10",
+    "release": ".3",
+    "makeup": 2.0,
+    "schpf": "150",
+    "mix": 100.0,
+    "drive": 15.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "R&B Ballad Master",
+   "values": {
+    "threshold": -8.0,
+    "ratio": "2",
+    "attack": "30",
+    "release": "AUTO",
+    "makeup": 1.0,
+    "schpf": "60",
+    "mix": 100.0,
+    "drive": 10.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Sample Chop Glue",
+   "values": {
+    "threshold": -16.0,
+    "ratio": "4",
+    "attack": "3",
+    "release": ".3",
+    "makeup": 3.0,
+    "schpf": "150",
+    "mix": 100.0,
+    "drive": 40.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Music Bus (Under Vocal)",
+   "values": {
+    "threshold": -14.0,
+    "ratio": "2",
+    "attack": "30",
+    "release": ".6",
+    "makeup": 2.0,
+    "schpf": "90",
+    "mix": 100.0,
+    "drive": 25.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Master Loud 96",
+   "values": {
+    "threshold": -18.0,
+    "ratio": "4",
+    "attack": "10",
+    "release": "AUTO",
+    "makeup": 6.0,
+    "schpf": "90",
+    "mix": 100.0,
+    "drive": 55.0,
+    "compin": "ON"
+   }
+  },
+  {
+   "name": "Console Colour Only",
+   "values": {
+    "threshold": -10.0,
+    "ratio": "4",
+    "attack": "30",
+    "release": "AUTO",
+    "makeup": 0.0,
+    "schpf": "OFF",
+    "mix": 100.0,
+    "drive": 60.0,
+    "compin": "OFF"
+   }
+  }
+ ]
+}

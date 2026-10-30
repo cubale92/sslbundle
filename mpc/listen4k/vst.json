@@ -1,0 +1,31 @@
+{
+  "name": "Listen-4K",
+  "vendor": "8cee",
+  "uid": "Ls4k",
+  "version": 1000,
+  "so": "listen4k.so",
+  "effect": true,
+  "params": "params.json",
+  "layout": "layout.conf",
+  "presets": "presets.json",
+  "targets": [
+    "armv7",
+    "aarch64"
+  ],
+  "build": {
+    "root": "../..",
+    "sources": [
+      "mpc/listen4k/engine.cpp"
+    ],
+    "cflags": [
+      "-Ishared",
+      "-Impc/common"
+    ],
+    "libs": [
+      "-lm"
+    ],
+    "cflags_arm": [
+      "-mfpu=neon"
+    ]
+  }
+}

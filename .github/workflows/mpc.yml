@@ -1,0 +1,64 @@
+name: MPC plug-ins (VST2, Linux ARM)
+
+# Builds Channel-4K, Bus-4K and Listen-4K for MPC OS standalone (armv7 = MPC Live/Live II/One/X/Key 61/Force,
+# aarch64 = Gen2 such as Live III) with sd88me/mpc-vst-plugins, and packages each as installer zips.
+# A push makes the zips as run artifacts (dry run). "Run workflow" with dry_run off attaches them to draft releases.
+
+on:
+  push:
+    paths:
+      - "mpc/**"
+      - "shared/EceeDSP.h"
+      - ".github/workflows/mpc.yml"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version, e.g. 1.0.0
+        default: "1.0.0"
+      dry_run:
+        description: Build and package only (no draft release)
+        type: boolean
+        default: true
+
+jobs:
+  channel4k:
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+    permissions: { contents: write }
+    with:
+      tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+      tag: channel-4k-mpc-v${{ inputs.version || '1.0.0' }}
+      version: ${{ inputs.version || '1.0.0' }}
+      vst_dir: mpc/channel4k
+      build: '"$MPC_VST/tools/build_port.sh" mpc/channel4k/vst.json'
+      host_test: '"$MPC_VST/tools/test_port.sh" mpc/channel4k/vst.json'
+      about: "8cee Channel-4K: E/G-series console channel strip (drive, filters, 4-band EQ, compressor, gate) with 90s boom bap / new jack / R&B presets."
+      plugin_id: 8cee-channel-4k
+      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}
+
+  bus4k:
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+    permissions: { contents: write }
+    with:
+      tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+      tag: bus-4k-mpc-v${{ inputs.version || '1.0.0' }}
+      version: ${{ inputs.version || '1.0.0' }}
+      vst_dir: mpc/bus4k
+      build: '"$MPC_VST/tools/build_port.sh" mpc/bus4k/vst.json'
+      host_test: '"$MPC_VST/tools/test_port.sh" mpc/bus4k/vst.json'
+      about: "8cee Bus-4K: centre-section bus compressor with console drive, with 90s boom bap / new jack / R&B presets."
+      plugin_id: 8cee-bus-4k
+      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}
+
+  listen4k:
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+    permissions: { contents: write }
+    with:
+      tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+      tag: listen-4k-mpc-v${{ inputs.version || '1.0.0' }}
+      version: ${{ inputs.version || '1.0.0' }}
+      vst_dir: mpc/listen4k
+      build: '"$MPC_VST/tools/build_port.sh" mpc/listen4k/vst.json'
+      host_test: '"$MPC_VST/tools/test_port.sh" mpc/listen4k/vst.json'
+      about: "8cee Listen-4K: talkback (listen mic) room crusher, with 90s boom bap / new jack / R&B presets."
+      plugin_id: 8cee-listen-4k
+      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}

@@ -1,0 +1,136 @@
+{
+ "presets": [
+  {
+   "name": "Init",
+   "values": {
+    "input": 10.0,
+    "release": 54.01,
+    "tone": "TALKBACK",
+    "crunch": 30.0,
+    "mix": 100.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Room Mic Explosion",
+   "values": {
+    "input": 22.0,
+    "release": 62.42,
+    "tone": "TALKBACK",
+    "crunch": 45.0,
+    "mix": 100.0,
+    "output": -4.0
+   }
+  },
+  {
+   "name": "Boom Bap Break Crush",
+   "values": {
+    "input": 16.0,
+    "release": 45.38,
+    "tone": "FULL",
+    "crunch": 40.0,
+    "mix": 45.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Parallel Kit Smash",
+   "values": {
+    "input": 20.0,
+    "release": 37.58,
+    "tone": "FULL",
+    "crunch": 25.0,
+    "mix": 35.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Snare Room Bloom",
+   "values": {
+    "input": 18.0,
+    "release": 71.54,
+    "tone": "TALKBACK",
+    "crunch": 30.0,
+    "mix": 50.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Dusty Loop Pump",
+   "values": {
+    "input": 14.0,
+    "release": 29.78,
+    "tone": "DARK",
+    "crunch": 55.0,
+    "mix": 60.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Hat Bleed Grit",
+   "values": {
+    "input": 12.0,
+    "release": 18.79,
+    "tone": "TALKBACK",
+    "crunch": 70.0,
+    "mix": 30.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Lo-Fi Telephone Vox",
+   "values": {
+    "input": 14.0,
+    "release": 51.43,
+    "tone": "TALKBACK",
+    "crunch": 60.0,
+    "mix": 100.0,
+    "output": -2.0
+   }
+  },
+  {
+   "name": "Ad-Lib Thickener",
+   "values": {
+    "input": 10.0,
+    "release": 43.63,
+    "tone": "TALKBACK",
+    "crunch": 20.0,
+    "mix": 25.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "New Jack Clap Slam",
+   "values": {
+    "input": 18.0,
+    "release": 26.59,
+    "tone": "FULL",
+    "crunch": 35.0,
+    "mix": 40.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Dark Vinyl Kick Room",
+   "values": {
+    "input": 16.0,
+    "release": 58.54,
+    "tone": "DARK",
+    "crunch": 30.0,
+    "mix": 40.0,
+    "output": 0.0
+   }
+  },
+  {
+   "name": "Gentle Room Lift",
+   "values": {
+    "input": 8.0,
+    "release": 57.48,
+    "tone": "FULL",
+    "crunch": 10.0,
+    "mix": 20.0,
+    "output": 0.0
+   }
+  }
+ ]
+}

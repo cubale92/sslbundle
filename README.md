@@ -43,6 +43,10 @@ A typical chain: **Channel-4K** on each drum, sample and vocal track → **Liste
 
 Every push runs `.github/workflows/build.yml` on GitHub: a Windows build, checked with **pluginval**. Get it under **Actions → latest run → Artifacts** (`8cee-Console-4K-Windows`).
 
+## MPC standalone (VST2, Linux ARM)
+
+All three also build as native MPC OS insert effects (Gen1 armv7 and Gen2 aarch64) with the same presets: see [mpc/README.md](mpc/README.md).
+
 ## Install
 
 Copy the `.vst3` folders to `C:\Program Files\Common Files\VST3\`.

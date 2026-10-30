@@ -1,0 +1,272 @@
+{
+ "params": [
+  {
+   "key": "drive",
+   "name": "Drive",
+   "min": 0,
+   "max": 24,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "phase",
+   "name": "Phase",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "hpf",
+   "name": "HPF",
+   "min": 0,
+   "max": 100,
+   "default": 0,
+   "dynamic_display": true
+  },
+  {
+   "key": "lpf",
+   "name": "LPF",
+   "min": 0,
+   "max": 100,
+   "default": 100,
+   "dynamic_display": true
+  },
+  {
+   "key": "eqtype",
+   "name": "EQ Curve",
+   "options": [
+    "BROWN",
+    "BLACK"
+   ],
+   "default": 1
+  },
+  {
+   "key": "eqin",
+   "name": "EQ In",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 1
+  },
+  {
+   "key": "hfg",
+   "name": "HF Gain",
+   "min": -16,
+   "max": 16,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "hff",
+   "name": "HF Freq",
+   "min": 0,
+   "max": 100,
+   "default": 70.72,
+   "dynamic_display": true
+  },
+  {
+   "key": "hfbell",
+   "name": "HF Bell",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "hmfg",
+   "name": "HMF Gain",
+   "min": -16,
+   "max": 16,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "hmff",
+   "name": "HMF Freq",
+   "min": 0,
+   "max": 100,
+   "default": 58.09,
+   "dynamic_display": true
+  },
+  {
+   "key": "hmfq",
+   "name": "HMF Q",
+   "min": 0,
+   "max": 100,
+   "default": 39.79,
+   "dynamic_display": true
+  },
+  {
+   "key": "lmfg",
+   "name": "LMF Gain",
+   "min": -16,
+   "max": 16,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "lmff",
+   "name": "LMF Freq",
+   "min": 0,
+   "max": 100,
+   "default": 43.5,
+   "dynamic_display": true
+  },
+  {
+   "key": "lmfq",
+   "name": "LMF Q",
+   "min": 0,
+   "max": 100,
+   "default": 39.79,
+   "dynamic_display": true
+  },
+  {
+   "key": "lfg",
+   "name": "LF Gain",
+   "min": -16,
+   "max": 16,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "lff",
+   "name": "LF Freq",
+   "min": 0,
+   "max": 100,
+   "default": 44.46,
+   "dynamic_display": true
+  },
+  {
+   "key": "lfbell",
+   "name": "LF Bell",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "cratio",
+   "name": "Ratio",
+   "min": 0,
+   "max": 100,
+   "default": 0,
+   "dynamic_display": true
+  },
+  {
+   "key": "cthresh",
+   "name": "Comp Thresh",
+   "min": -40,
+   "max": 10,
+   "default": 10,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "crel",
+   "name": "Comp Release",
+   "min": 0,
+   "max": 100,
+   "default": 40.89,
+   "dynamic_display": true
+  },
+  {
+   "key": "cfast",
+   "name": "Comp Fast",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "grange",
+   "name": "Gate Range",
+   "min": 0,
+   "max": 40,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "gthresh",
+   "name": "Gate Thresh",
+   "min": -70,
+   "max": 0,
+   "default": -50,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "grel",
+   "name": "Gate Release",
+   "min": 0,
+   "max": 100,
+   "default": 36.73,
+   "dynamic_display": true
+  },
+  {
+   "key": "gmode",
+   "name": "Gate Mode",
+   "options": [
+    "EXP",
+    "GATE"
+   ],
+   "default": 0
+  },
+  {
+   "key": "gfast",
+   "name": "Gate Fast",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "dynin",
+   "name": "Dyn In",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 1
+  },
+  {
+   "key": "dynpre",
+   "name": "Dyn > EQ",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 0
+  },
+  {
+   "key": "mix",
+   "name": "Dyn Mix",
+   "min": 0,
+   "max": 100,
+   "default": 100,
+   "unit": "%",
+   "dynamic_display": true
+  },
+  {
+   "key": "output",
+   "name": "Output",
+   "min": -18,
+   "max": 18,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  }
+ ]
+}

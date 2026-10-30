@@ -1,0 +1,58 @@
+{
+ "params": [
+  {
+   "key": "input",
+   "name": "Input",
+   "min": 0,
+   "max": 30,
+   "default": 10,
+   "unit": "dB",
+   "dynamic_display": true
+  },
+  {
+   "key": "release",
+   "name": "Release",
+   "min": 0,
+   "max": 100,
+   "default": 54.01,
+   "dynamic_display": true
+  },
+  {
+   "key": "tone",
+   "name": "Tone",
+   "options": [
+    "FULL",
+    "TALKBACK",
+    "DARK"
+   ],
+   "default": 1
+  },
+  {
+   "key": "crunch",
+   "name": "Crunch",
+   "min": 0,
+   "max": 100,
+   "default": 30,
+   "unit": "%",
+   "dynamic_display": true
+  },
+  {
+   "key": "mix",
+   "name": "Mix",
+   "min": 0,
+   "max": 100,
+   "default": 100,
+   "unit": "%",
+   "dynamic_display": true
+  },
+  {
+   "key": "output",
+   "name": "Output",
+   "min": -24,
+   "max": 12,
+   "default": 0,
+   "unit": "dB",
+   "dynamic_display": true
+  }
+ ]
+}

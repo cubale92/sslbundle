@@ -2,6 +2,9 @@ name: Build plug-ins
 
 on:
   push:
+    paths-ignore:
+      - "mpc/**"
+      - ".github/workflows/mpc.yml"
   pull_request:
   workflow_dispatch:
 
