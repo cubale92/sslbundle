@@ -41,11 +41,11 @@ A typical chain: **Channel-4K** on each drum, sample and vocal track → **Liste
 
 ## Download a build
 
-Every push runs `.github/workflows/build.yml` on GitHub: a Windows build, checked with **pluginval**. Get it under **Actions → latest run → Artifacts** (`8cee-Console-4K-Windows`).
+Desktop builds are currently manual-only to focus build usage on MPC Live 3. Run `.github/workflows/build.yml` manually for a Windows build checked with **pluginval**. Get it under **Actions → latest run → Artifacts** (`8cee-Console-4K-Windows`).
 
 ## MPC standalone (VST2, Linux ARM)
 
-All three also build as native MPC OS insert effects (Gen1 armv7 and Gen2 aarch64) with the same presets: see [mpc/README.md](mpc/README.md).
+The active target is **MPC Live 3, Linux AArch64 VST2**, using sd88me/mpc-vst-plugins. All three effects retain the factory preset names and converted parameter values: see [mpc/README.md](mpc/README.md).
 
 ## Install
 
@@ -74,4 +74,4 @@ tools/             dev-only: renders each UI to PNG and prints a level/THD/prese
 
 ## Before you sell them
 
-JUCE 8 is dual-licensed (AGPLv3 or a JUCE licence); selling closed-source plug-ins needs a JUCE licence. Plug-in codes: manufacturer `Ecee`, plug-ins `Ch4k`, `Bs4k`, `Ls4k` — keep them fixed once released.
+This repository currently has no top-level project licence. Do not assume public source or SSL third-party notices grant rights to SSL proprietary code. See [dependency and licensing notes](docs/LICENSING.md). JUCE 8.0.4 offers AGPLv3 or commercial licensing; dependency notices alone do not establish this project's distribution terms. Plug-in codes: manufacturer `Ecee`, plug-ins `Ch4k`, `Bs4k`, `Ls4k` — keep them fixed once released.

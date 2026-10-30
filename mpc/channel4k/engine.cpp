@@ -1,4 +1,4 @@
-// 8cee Channel-4K for MPC OS — E/G-series console channel strip (same DSP as the desktop plug-in, without JUCE).
+// 8cee Channel-4K for MPC OS — E/G-series console channel strip (independent port of the desktop DSP, without JUCE).
 extern "C" {
 #include "engine.h"
 }
@@ -18,16 +18,7 @@ enum P
 };
 
 // Positions (0..100) are log curves: see the *Of() helpers. Defaults match the desktop plug-in.
-const ParamDef kDefs[kNumParams] = {
-    { "drive", 0 }, { "phase", 0 }, { "hpf", 0 }, { "lpf", 100 }, { "eqtype", 1 }, { "eqin", 1 },
-    { "hfg", 0 }, { "hff", 70.73f }, { "hfbell", 0 },
-    { "hmfg", 0 }, { "hmff", 58.12f }, { "hmfq", 39.79f },
-    { "lmfg", 0 }, { "lmff", 43.47f }, { "lmfq", 39.79f },
-    { "lfg", 0 }, { "lff", 44.46f }, { "lfbell", 0 },
-    { "cratio", 0 }, { "cthresh", 10 }, { "crel", 40.89f }, { "cfast", 0 },
-    { "grange", 0 }, { "gthresh", -50 }, { "grel", 36.73f }, { "gmode", 0 }, { "gfast", 0 },
-    { "dynin", 1 }, { "dynpre", 0 }, { "mix", 100 }, { "output", 0 },
-};
+#include "param_defs.h"
 
 inline float hpfHz (float p)   { return logPos (p, 20.0f, 400.0f); }      // p < 1 = off
 inline float lpfHz (float p)   { return logPos (p, 3000.0f, 22000.0f); }  // p > 99 = off
@@ -265,6 +256,7 @@ void midi (void*, const uint8_t*, int)      {}
 void setParam (void* inst, const char* k, const char* val) { static_cast<Channel4K*> (inst)->p.set (k, val); }
 int getParam (void* inst, const char* k, char* buf, int len)
 {
+    if (! inst || ! k || ! buf || len <= 0) return 0;
     auto* e = static_cast<Channel4K*> (inst);
     const int n = e->p.get (k, buf, len);
     return n > 0 ? n : e->display (k, buf, len);

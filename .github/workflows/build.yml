@@ -10,6 +10,8 @@ on:
 
 jobs:
   build:
+    # Desktop builds are paused while development focuses on MPC Live 3.
+    if: github.event_name == 'workflow_dispatch'
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     strategy:

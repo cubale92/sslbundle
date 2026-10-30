@@ -1,4 +1,4 @@
-// 8cee Bus-4K for MPC OS — centre-section bus compressor with console summing drive (same DSP as the desktop plug-in).
+// 8cee Bus-4K for MPC OS — centre-section bus compressor with console summing drive (independent port of the desktop DSP).
 extern "C" {
 #include "engine.h"
 }
@@ -11,10 +11,7 @@ namespace
 enum P { kThresh, kRatio, kAttack, kRelease, kMakeup, kHpf, kMix, kDrive, kCompIn, kNumParams };
 
 // ratio: 0=2 1=4 2=10 | attack: 0=.1 1=.3 2=1 3=3 4=10 5=30 ms | release: 0=.1 1=.3 2=.6 3=1.2 s 4=AUTO | schpf: 0=off 1=60 2=90 3=150 4=250 Hz
-const ParamDef kDefs[kNumParams] = {
-    { "threshold", -10 }, { "ratio", 1 }, { "attack", 5 }, { "release", 4 }, { "makeup", 0 },
-    { "schpf", 0 }, { "mix", 100 }, { "drive", 20 }, { "compin", 1 },
-};
+#include "param_defs.h"
 
 const double osRate = 88200.0;
 
@@ -146,6 +143,7 @@ void midi (void*, const uint8_t*, int)      {}
 void setParam (void* inst, const char* k, const char* val) { static_cast<Bus4K*> (inst)->p.set (k, val); }
 int getParam (void* inst, const char* k, char* buf, int len)
 {
+    if (! inst || ! k || ! buf || len <= 0) return 0;
     auto* e = static_cast<Bus4K*> (inst);
     const int n = e->p.get (k, buf, len);
     return n > 0 ? n : e->display (k, buf, len);

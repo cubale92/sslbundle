@@ -1,4 +1,4 @@
-// 8cee Listen-4K for MPC OS — the console's talkback (listen mic) compressor (same DSP as the desktop plug-in).
+// 8cee Listen-4K for MPC OS — the console's talkback (listen mic) compressor (independent port of the desktop DSP).
 extern "C" {
 #include "engine.h"
 }
@@ -11,9 +11,7 @@ namespace
 enum P { kInput, kRelease, kTone, kCrunch, kMix, kOutput, kNumParams };
 
 // release is a 0..100 position on a log curve, 30..1200 ms | tone: 0 full, 1 talkback, 2 dark
-const ParamDef kDefs[kNumParams] = {
-    { "input", 10 }, { "release", 54.01f }, { "tone", 1 }, { "crunch", 30 }, { "mix", 100 }, { "output", 0 },
-};
+#include "param_defs.h"
 
 inline float releaseMs (float pos) { return logPos (pos, 30.0f, 1200.0f); }
 
@@ -130,6 +128,7 @@ void midi (void*, const uint8_t*, int)      {}
 void setParam (void* inst, const char* k, const char* val) { static_cast<Listen4K*> (inst)->p.set (k, val); }
 int getParam (void* inst, const char* k, char* buf, int len)
 {
+    if (! inst || ! k || ! buf || len <= 0) return 0;
     auto* e = static_cast<Listen4K*> (inst);
     const int n = e->p.get (k, buf, len);
     return n > 0 ? n : e->display (k, buf, len);
