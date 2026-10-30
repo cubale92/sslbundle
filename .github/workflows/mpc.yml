@@ -5,6 +5,7 @@ name: MPC Live 3 plug-ins (VST2, AArch64)
 
 on:
   push:
+    branches: [main]
     paths:
       - "mpc/**"
       - "shared/**"
@@ -25,6 +26,10 @@ on:
         description: Build and package only (no draft release)
         type: boolean
         default: true
+
+concurrency:
+  group: mpc-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   regression:
