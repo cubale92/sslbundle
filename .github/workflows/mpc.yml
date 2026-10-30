@@ -1,14 +1,21 @@
-name: MPC plug-ins (VST2, Linux ARM)
+name: MPC Live 3 plug-ins (VST2, AArch64)
 
-# Builds Channel-4K, Bus-4K and Listen-4K for MPC OS standalone (armv7 = MPC Live/Live II/One/X/Key 61/Force,
-# aarch64 = Gen2 such as Live III) with sd88me/mpc-vst-plugins, and packages each as installer zips.
+# Builds all three effects for MPC Live 3 only (AArch64) using the pinned toolkit.
 # A push makes the zips as run artifacts (dry run). "Run workflow" with dry_run off attaches them to draft releases.
 
 on:
   push:
+    branches: [main]
     paths:
       - "mpc/**"
-      - "shared/EceeDSP.h"
+      - "shared/**"
+      - "tests/**"
+      - ".github/workflows/mpc.yml"
+  pull_request:
+    paths:
+      - "mpc/**"
+      - "shared/**"
+      - "tests/**"
       - ".github/workflows/mpc.yml"
   workflow_dispatch:
     inputs:
@@ -20,11 +27,36 @@ on:
         type: boolean
         default: true
 
+concurrency:
+  group: mpc-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  regression:
+    runs-on: ubuntu-latest
+    permissions: { contents: read }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: sd88me/mpc-vst-plugins
+          ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
+          path: toolkit
+      - name: Check generated parameters and presets
+        run: python3 mpc/tools/gen_ports.py --check
+      - name: Test DSP and MPC engines with sanitizers
+        run: |
+          cmake -S tests -B build-tests -DMPC_VST_PATH="$PWD/toolkit" -DECEE_SANITIZERS=ON -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build-tests --parallel 2
+          ctest --test-dir build-tests --output-on-failure
+
   channel4k:
+    needs: regression
     uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
     permissions: { contents: write }
     with:
+      gen2_only: true
+      extra: mpc/THIRD_PARTY_NOTICES.txt:THIRD_PARTY_NOTICES.txt
       tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
       tag: channel-4k-mpc-v${{ inputs.version || '1.0.0' }}
       version: ${{ inputs.version || '1.0.0' }}
@@ -33,12 +65,15 @@ jobs:
       host_test: '"$MPC_VST/tools/test_port.sh" mpc/channel4k/vst.json'
       about: "8cee Channel-4K: E/G-series console channel strip (drive, filters, 4-band EQ, compressor, gate) with 90s boom bap / new jack / R&B presets."
       plugin_id: 8cee-channel-4k
-      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}
+      dry_run: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
 
   bus4k:
+    needs: regression
     uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
     permissions: { contents: write }
     with:
+      gen2_only: true
+      extra: mpc/THIRD_PARTY_NOTICES.txt:THIRD_PARTY_NOTICES.txt
       tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
       tag: bus-4k-mpc-v${{ inputs.version || '1.0.0' }}
       version: ${{ inputs.version || '1.0.0' }}
@@ -47,12 +82,15 @@ jobs:
       host_test: '"$MPC_VST/tools/test_port.sh" mpc/bus4k/vst.json'
       about: "8cee Bus-4K: centre-section bus compressor with console drive, with 90s boom bap / new jack / R&B presets."
       plugin_id: 8cee-bus-4k
-      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}
+      dry_run: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
 
   listen4k:
+    needs: regression
     uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
     permissions: { contents: write }
     with:
+      gen2_only: true
+      extra: mpc/THIRD_PARTY_NOTICES.txt:THIRD_PARTY_NOTICES.txt
       tools_ref: adc48a35e8e190cd4c7a1adb20da5a4cce2fdea4
       tag: listen-4k-mpc-v${{ inputs.version || '1.0.0' }}
       version: ${{ inputs.version || '1.0.0' }}
@@ -61,4 +99,4 @@ jobs:
       host_test: '"$MPC_VST/tools/test_port.sh" mpc/listen4k/vst.json'
       about: "8cee Listen-4K: talkback (listen mic) room crusher, with 90s boom bap / new jack / R&B presets."
       plugin_id: 8cee-listen-4k
-      dry_run: ${{ github.event_name == 'push' || inputs.dry_run }}
+      dry_run: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}

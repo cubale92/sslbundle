@@ -7,6 +7,9 @@
 #include <cstring>
 #include <cmath>
 #include <string>
+#include <cerrno>
+#include <cctype>
+#include <limits>
 
 namespace mpc4k
 {
@@ -38,8 +41,9 @@ public:
         for (int n = 0; n < kTaps; ++n)
         {
             const double m = n - kHalf;
-            const double sinc = m == 0 ? 0.5 : std::sin (M_PI * m * 0.5) / (M_PI * m);
-            const double w = 0.42 - 0.5 * std::cos (2.0 * M_PI * n / (kTaps - 1)) + 0.08 * std::cos (4.0 * M_PI * n / (kTaps - 1));
+            const double pi = 3.14159265358979323846;
+            const double sinc = m == 0 ? 0.5 : std::sin (pi * m * 0.5) / (pi * m);
+            const double w = 0.42 - 0.5 * std::cos (2.0 * pi * n / (kTaps - 1)) + 0.08 * std::cos (4.0 * pi * n / (kTaps - 1));
             h[n] = (float) (sinc * w);
         }
         double sum = 0;
@@ -87,13 +91,13 @@ private:
 inline float fromI16 (int16_t v) { return (float) v * (1.0f / 32768.0f); }
 inline int16_t toI16 (float v)
 {
-    if (! (v == v)) v = 0.0f;   // NaN guard: a crash or a NaN takes MPC down, never pass one on
-    v = std::fmax (-1.0f, std::fmin (1.0f, v));
-    return (int16_t) std::lrint (v * 32767.0f);
+    if (! std::isfinite (v)) return 0;
+    v = std::fmax (-1.0f, std::fmin (32767.0f / 32768.0f, v));
+    return (int16_t) std::lrint (v * 32768.0f);
 }
 
 // --- a tiny parameter table: key -> float, with state save/restore ----------------------------------------------
-struct ParamDef { const char* key; float def; };
+struct ParamDef { const char* key; float def, minimum, maximum; bool discrete; };
 
 template <int N>
 struct ParamTable
@@ -106,16 +110,20 @@ struct ParamTable
 
     int index (const char* key) const
     {
+        if (! key) return -1;
         for (int i = 0; i < N; ++i) if (std::strcmp (defs[i].key, key) == 0) return i;
         return -1;
     }
 
     bool set (const char* key, const char* val)
     {
+        if (! key || ! val) return false;
         if (std::strcmp (key, "state") == 0) { restore (val); return true; }
         const int i = index (key);
         if (i < 0) return false;
-        v[i] = (float) std::atof (val);
+        float value;
+        if (! parse (val, value)) return false;
+        v[i] = bounded (i, value);
         dirty = true;
         return true;
     }
@@ -123,17 +131,19 @@ struct ParamTable
     /** Value (as the wrapper expects: the number in parameter units) or the "state" chunk. > 0 when answered. */
     int get (const char* key, char* buf, int len) const
     {
+        if (! key || ! buf || len <= 0) return 0;
         if (std::strcmp (key, "state") == 0)
         {
             std::string s;
             char item[64];
-            for (int i = 0; i < N; ++i) { snprintf (item, sizeof item, "%s=%g;", defs[i].key, v[i]); s += item; }
+            for (int i = 0; i < N; ++i) { snprintf (item, sizeof item, "%s=%.9g;", defs[i].key, v[i]); s += item; }
+            if (s.size() >= (size_t) len) { buf[0] = 0; return 0; }
             snprintf (buf, len, "%s", s.c_str());
             return (int) std::strlen (buf) + 1;
         }
         const int i = index (key);
         if (i < 0) return 0;
-        snprintf (buf, len, "%g", v[i]);
+        snprintf (buf, len, "%.9g", v[i]);
         return (int) std::strlen (buf) + 1;
     }
 
@@ -145,14 +155,34 @@ struct ParamTable
             const char* eq = std::strchr (s, '=');
             const char* end = std::strchr (s, ';');
             if (! eq || ! end || eq > end) break;
-            const size_t kl = std::min ((size_t) (eq - s), sizeof key - 1), vl = std::min ((size_t) (end - eq - 1), sizeof val - 1);
+            const size_t kl = (size_t) (eq - s), vl = (size_t) (end - eq - 1);
+            if (kl >= sizeof key || vl >= sizeof val) { s = end + 1; continue; }
             std::memcpy (key, s, kl); key[kl] = 0;
             std::memcpy (val, eq + 1, vl); val[vl] = 0;
             const int i = index (key);
-            if (i >= 0) v[i] = (float) std::atof (val);
+            float value;
+            if (i >= 0 && parse (val, value)) v[i] = bounded (i, value);
             s = end + 1;
         }
         dirty = true;
+    }
+
+private:
+    static bool parse (const char* text, float& value)
+    {
+        char* end = nullptr;
+        errno = 0;
+        value = std::strtof (text, &end);
+        if (end == text || errno == ERANGE || ! std::isfinite (value)) return false;
+        while (*end && std::isspace ((unsigned char) *end)) ++end;
+        return *end == 0;
+    }
+
+    float bounded (int i, float value) const
+    {
+        const auto& d = defs[i];
+        value = std::max (d.minimum, std::min (d.maximum, value));
+        return d.discrete ? std::round (value) : value;
     }
 };
 } // namespace mpc4k

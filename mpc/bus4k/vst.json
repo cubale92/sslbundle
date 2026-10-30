@@ -9,7 +9,6 @@
   "layout": "layout.conf",
   "presets": "presets.json",
   "targets": [
-    "armv7",
     "aarch64"
   ],
   "build": {
@@ -23,9 +22,6 @@
     ],
     "libs": [
       "-lm"
-    ],
-    "cflags_arm": [
-      "-mfpu=neon"
     ]
   }
 }
